@@ -2,30 +2,63 @@
     ViewBag.Title = "Home Page";
 }
 
+@section scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(DownloadChartData);
+
+        function DownloadChartData() {
+            $.ajax({
+                url: '@Url.Action("GetChartData", "Home")',
+                success: function (response) {
+                    ShowChart(response);
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        };
+        function ShowChart(data) {
+            var options = {
+                //title: data.title,
+                axisTitlesPosition: "none",
+                legend: {
+                    position: "none"
+                },
+                vAxis: {
+                    textPosition: "none"
+                },
+                hAxis: {
+                    textPosition: "none"
+                }
+            };
+            var dataTable = new google.visualization.DataTable(data.dataTable);
+            var chart = new google.visualization.LineChart(document.getElementById('chart-area'));
+            chart.draw(dataTable, options);
+        };
+    </script>
+}
+
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>ASP.NET MVC app with integrated Google Charts</h1>
+    <p class="lead">An example on how to display data using Google visualizations with data supplied by controller</p>
+    <p>
+        <a href="https://google-developers.appspot.com/chart/interactive/docs/quick_start" class="btn btn-primary btn-lg">Google Charts quick start &raquo;</a>
+    </p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Displaying the chart</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            The chart shoud load asyncronously in the space at the right of this block
         </p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <div id="chart-area">
-            
-        </div>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-8">
+        <div id="chart-area"></div>
     </div>
 </div>

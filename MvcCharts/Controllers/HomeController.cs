@@ -41,8 +41,8 @@ namespace MvcCharts.Controllers
 
             var chart = new ChartViewModel
             {
-                Title = "First chart",
-                Subtitle = "New cool chart",
+                Title = "Events",
+                Subtitle = "per date",
                 DataTable = dt
             };
 

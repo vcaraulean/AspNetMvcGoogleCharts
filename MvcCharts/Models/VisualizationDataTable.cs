@@ -20,6 +20,7 @@ namespace MvcCharts.Models
         {
             Rows.Add(new Row(values));
         }
+
         public VisualizationDataTable NewRow(params object[] values)
         {
             Rows.Add(new Row(values));
@@ -44,16 +45,16 @@ namespace MvcCharts.Models
             }
 
             [JsonProperty("c")]
-            public RowValue[] Values { get; }
+            private RowValue[] Values { get; }
 
-            public struct RowValue
+            private struct RowValue
             {
                 public RowValue(object val)
                 {
                     Val = val;
                 }
                 [JsonProperty("v")]
-                public object Val { get; }
+                private object Val { get; }
             }
         }
     }
